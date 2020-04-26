@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer') 
 
 isDev = process.env.NODE_ENV === 'development'
 isProd = !isDev
@@ -57,6 +58,42 @@ const babelOptions = preset => {
   return opts
 }
 
+const jsLoaders = () => {
+  const loaders = [{
+    loader: 'babel-loader',
+    options: babelOptions()
+  }]
+  if (isDev){
+    loaders.push('eslint-loader')
+  }
+  return loaders
+}
+
+const plugins = () => {
+  const base =  [
+    new HTMLWebpackPlugin({
+      template: './index.html',
+      minify: {
+        collapseWhitespace: !isDev
+      }
+    }),
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'src/favicon.ico'),
+        to: path.resolve(__dirname, 'dist')
+      }
+    ]),
+    new MiniCssExtractPlugin({
+      filename: filename('css')
+    })
+  ]
+  if (isProd){
+    base.push(new BundleAnalyzerPlugin())
+  }
+  return base
+}
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
@@ -80,24 +117,8 @@ module.exports = {
     port: 4200,
     hot: isDev
   },
-  plugins: [
-    new HTMLWebpackPlugin({
-      template: './index.html',
-      minify: {
-        collapseWhitespace: !isDev
-      }
-    }),
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, 'src/favicon.ico'),
-        to: path.resolve(__dirname, 'dist')
-      }
-    ]),
-    new MiniCssExtractPlugin({
-      filename: filename('css')
-    })
-  ],
+  devtool: isDev ? 'source-map' : '',
+  plugins: plugins(),
   module: {
     rules: [
       {
@@ -131,10 +152,7 @@ module.exports = {
       { 
         test: /\.js$/, 
         exclude: /node_modules/, 
-        loader: {
-          loader: 'babel-loader',
-          options: babelOptions()
-        } 
+        use: jsLoaders() 
       },
       { 
         test: /\.ts$/, 

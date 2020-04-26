@@ -9,3 +9,9 @@ class Util {
 }
 
 console.log('Util ID is ', Util.id)
+
+// const unused = 42 - create unused var for test eslint
+
+import('lodash').then( _ =>{
+  console.log('Lodash', _.random(0,35, true))
+})

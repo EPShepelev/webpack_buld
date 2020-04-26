@@ -21,18 +21,18 @@ console.log('JSON-file:', json)
 console.log('XML-file:', xml)
 console.log('CSV-file:', csv)
 
-const App = () => (<div class='container'>
+const App = () => (<div className='container'>
   <h1>Easy webpack build for training</h1>
   <hr/>
-  <div class='logo'></div>
+  <div className='logo'></div>
   <hr/>
   <pre/>
   <hr/>
-  <div class='box'>
+  <div className='box'>
   <h2>Styles set with less</h2>
   </div>
   <hr/>
-  <div class='card'>
+  <div className='card'>
   <h2>Styles set with sass</h2>
   </div>
   </div>
