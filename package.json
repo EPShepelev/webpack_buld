@@ -13,6 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/EPShepelev/webpack_buld.git"
   },
+  "browserslist": "> 0.25%, not dead",
   "author": "Shepelev Evgeniy <shepelev.ep@yandex.ru>",
   "license": "ISC",
   "bugs": {
@@ -20,6 +21,12 @@
   },
   "homepage": "https://github.com/EPShepelev/webpack_buld#readme",
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.2",
@@ -27,8 +34,12 @@
     "csv-loader": "^3.0.3",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.2.0",
+    "less": "^3.11.1",
+    "less-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.1.4",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
@@ -37,7 +48,10 @@
     "xml-loader": "^1.2.1"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "jquery": "^3.5.0",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }

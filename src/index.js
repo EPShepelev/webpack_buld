@@ -1,10 +1,13 @@
 import * as $ from 'jquery'
 import Post from '@models/post'
 import './styles/style.css'
+import './styles/less.less'
+import './styles/scss.scss'
 import json from './assets/file1.json'
 import Smile from '@/assets/smile.png'
 import xml from './assets/file2.xml'
 import csv from './assets/file3.csv'
+import './babel.js'
 
 const post = new Post('Post title 1', Smile)
 

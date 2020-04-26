@@ -23,15 +23,49 @@ const optimization = () => {
   return config
 }
 
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
+
+const cssLoaders = addition => {
+  const loaders = [
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        hmr: isDev,
+        reloadAll: true
+      },
+    },
+    'css-loader'
+  ]
+  if (addition) {
+    loaders.push(addition)
+  }
+  return loaders
+}
+
+const babelOptions = preset => {
+  const opts = {
+    presets: [
+      '@babel/preset-env'
+    ],
+    plugins: [
+      '@babel/plugin-proposal-class-properties'
+    ]
+  }
+  if (preset){
+    opts.presets.push(preset)
+  }
+  return opts
+}
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: './index.js',
-    analytics: './analytics.js'
+    main: ['@babel/polyfill','./index.js'],
+    analytics: './analytics.ts'
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: filename('js'),
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
@@ -61,22 +95,22 @@ module.exports = {
       }
     ]),
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
+      filename: filename('css')
     })
   ],
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDev,
-              reloadAll: true
-            },
-          },
-          'css-loader']
+        use: cssLoaders()
+      },
+      {
+        test: /\.less$/,
+        use: cssLoaders('less-loader')
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: cssLoaders('sass-loader')
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -93,6 +127,30 @@ module.exports = {
       {
         test: /\.csv$/,
         use: ['csv-loader']
+      },
+      { 
+        test: /\.js$/, 
+        exclude: /node_modules/, 
+        loader: {
+          loader: 'babel-loader',
+          options: babelOptions()
+        } 
+      },
+      { 
+        test: /\.ts$/, 
+        exclude: /node_modules/, 
+        loader: {
+          loader: 'babel-loader',
+          options: babelOptions('@babel/preset-typescript')
+        } 
+      },
+      { 
+        test: /\.jsx$/, 
+        exclude: /node_modules/, 
+        loader: {
+          loader: 'babel-loader',
+          options: babelOptions('@babel/preset-react')
+        } 
       }
     ]
   }

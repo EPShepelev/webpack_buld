@@ -1,0 +1,14 @@
+$border: 5px solid #ba2341;
+
+.card{
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: $border;
+  max-width: 1500px;
+  margin: 0 auto;
+  h2{
+    text-align: center;
+    color: darkgreen;
+  }
+}
